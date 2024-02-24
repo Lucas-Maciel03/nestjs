@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, Param, Post } from '@nestjs/common';
 
 @Controller('courses')
 export class CoursesController {
@@ -31,6 +31,13 @@ export class CoursesController {
     //Trabalhando com os dados enviados no corpo da requisição
     @Post()
     create(@Body() body){
+        return body;
+    }
+
+    //Manipulando status code da requisição http
+    @HttpCode(204)
+    @Post('create') //para mudar o caminho da req
+    createCode(@Body() body){
         return body;
     }
 }
