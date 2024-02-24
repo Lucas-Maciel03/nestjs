@@ -1,4 +1,4 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 
 @Controller('courses')
 export class CoursesController {
@@ -16,7 +16,7 @@ export class CoursesController {
     //ROTAS COM PARAMETROS
     @Get(':id')
     findOne(@Param() params){ //params é referente ao @Param
-        return `Curso com ID ${params.id}`
+        return `Curso com ID ${params.id}`;
     }
     // @Get(':id')
     // findOneDesconstruindo(@Param('id') id: string){ //@Param(id) id: string referente ao 'id'
@@ -25,6 +25,12 @@ export class CoursesController {
     //DOIS PARAMETROS
     @Get(':id/:name')
     findOneDesconstruindo(@Param('id') id: string, @Param('name') name: string){ //@Param(id) id: string referente ao 'id'
-        return `Curso com ID: ${id} e nome: ${name}`
-    } 
+        return `Curso com ID: ${id} e nome: ${name}`;
+    }
+
+    //Trabalhando com os dados enviados no corpo da requisição
+    @Post()
+    create(@Body() body){
+        return body;
+    }
 }
