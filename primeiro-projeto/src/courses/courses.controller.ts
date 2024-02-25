@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpCode, Param, Post, Res } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Patch, Post, Res } from '@nestjs/common';
 
 @Controller('courses')
 export class CoursesController {
@@ -41,8 +41,24 @@ export class CoursesController {
         return body;
     }
 
+    //Decarator Res premite usar recursos do express
     @Get('lista')
     findAllRes(@Res() res){
-        return res.status(200).json({ message: 'Lista de alunos' })
+        return res.status(200).json({ message: 'Lista de alunos' });
+    }
+
+    //Manipulando requisições de Update(patch e put)
+    @Patch(':id')
+    update(@Param('id') id: string, @Body() body){
+        console.log(body);
+        return `Update course with ID: ${id}`;
+    }
+
+    //Manipulando requisições com Delete
+    //@HttpCode(HttpStatus.NO_CONTENT) //httpStatus usando enum global de status do nest
+    @HttpCode(204)
+    @Delete(':id')
+    remove(@Param('id') id: string){
+        return `Delete course with ID: ${id}`;
     }
 }
