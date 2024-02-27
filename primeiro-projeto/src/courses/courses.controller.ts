@@ -1,7 +1,12 @@
 import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Patch, Post, Res } from '@nestjs/common';
+import { CoursesService } from './courses.service';
 
 @Controller('courses')
 export class CoursesController {
+    //importando service no controller
+    constructor(private readonly courseService: CoursesService){}
+    //readonly: para garantir a imutabilidade    
+
     @Get() //get representa o tipo de metodo q a função findAll vai ser
     findAll(){
         return 'Listagem de cursos';
