@@ -16,7 +16,7 @@ export class CoursesController {
     //ROTAS COM PARAMETROS
     @Get(':id')
     findOne(@Param('id') id: number){
-        return this.courseService.findOne(+id);
+        return this.courseService.findOne(id);
     }
 
     //Trabalhando com os dados enviados no corpo da requisição
@@ -28,15 +28,15 @@ export class CoursesController {
     //Manipulando requisições de Update(patch e put)
     @Put(':id')
     update(@Param('id') id: number, @Body() updateCourseDTO: UpdateCourseDTO){
-        return this.courseService.update(+id, updateCourseDTO);
+        return this.courseService.update(id, updateCourseDTO);
     }
-  
+
     //Manipulando requisições com Delete
     //@HttpCode(HttpStatus.NO_CONTENT) //httpStatus usando enum global de status do nest
     @HttpCode(204)
     @Delete(':id')
     remove(@Param('id') id: number){
-        return this.courseService.remove(+id);
+        return this.courseService.remove(id);
     }
 
     //--- ALGUNS EXEMPLOS ----
