@@ -1,5 +1,5 @@
 import { HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
-import { Course } from './courses.entity';
+import { Course } from './entities/courses.entity';
 
 /*
     @injectable() configura a questão da injeção de dependencia com container do nest
