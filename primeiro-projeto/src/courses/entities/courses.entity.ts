@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm"
+import { Column, Entity, JoinTable, ManyToMany, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm"
+import { Tag } from "./tags.entity"
 
 @Entity('courses')//nome da tabela
 export class Course{
@@ -11,6 +12,7 @@ export class Course{
     @Column()
     description: string
 
-    @Column('json', { nullable: true })
-    tags: string[]
+    @JoinTable()//é usado no many to many para definir o proprietario/lado principal desse relacionamento
+    @ManyToMany(() => Tag, tag => tag.courses)
+    tags: Tag[]
 }
