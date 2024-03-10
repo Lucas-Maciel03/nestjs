@@ -2,6 +2,9 @@ import { HttpException, HttpStatus, Injectable, NotFoundException } from '@nestj
 import { Course } from './entities/courses.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Tag } from './entities/tags.entity';
+import { CreateCourseDTO } from './dto/create-course.dto';
+import { UpdateCourseDTO } from './dto/update-course.dto';
 
 /*
     @injectable() configura a questão da injeção de dependencia com container do nest
@@ -15,7 +18,10 @@ import { InjectRepository } from '@nestjs/typeorm';
 export class CoursesService {
     constructor(
         @InjectRepository(Course)
-        private readonly courseRepository: Repository<Course>
+        private readonly courseRepository: Repository<Course>,
+
+        @InjectRepository(Tag)
+        private readonly tagRepository: Repository<Tag>
     ){}
 
     async findAll(){
@@ -33,13 +39,24 @@ export class CoursesService {
         return course
     }
 
-    async create(createCourseDTO: any){
-        const course = this.courseRepository.create(createCourseDTO)
+    async create(createCourseDTO: CreateCourseDTO){
+        const tags = await Promise.all(
+            createCourseDTO.tags.map(name => this.preloadTagByName(name))
+        )
+        const course = this.courseRepository.create({
+            ... createCourseDTO,
+            tags,
+        })
 
         return this.courseRepository.save(course)
     }
 
-    async update(id: number, updateCourseDTO: any){
+    async update(id: number, updateCourseDTO: UpdateCourseDTO){
+        const tags = 
+            updateCourseDTO.tags &&
+            (await Promise.all(
+                updateCourseDTO.tags.map(name => this.preloadTagByName(name)),
+            ))
         /*  
             preload cria os objetos da nossa entidade a partir dos dados que ela recebe
             se o id corresponder a algo que existe na tabela ele vai salvar os dados
@@ -48,6 +65,7 @@ export class CoursesService {
         const course = await this.courseRepository.preload({
             ... updateCourseDTO,
             id,
+            tags,
         }) //esta montando uma variavel com o id + os objetos que está passando em updateCouseDTO
 
         if(!course){
@@ -65,5 +83,15 @@ export class CoursesService {
         }
 
         return this.courseRepository.remove(course)
+    }
+
+    private async preloadTagByName(name: string): Promise<Tag>{
+        const tag = await this.tagRepository.findOne({ where: { name } })
+
+        if(tag){
+            return tag
+        }
+
+        return this.tagRepository.create({ name })
     }
 }
