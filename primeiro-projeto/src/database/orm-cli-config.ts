@@ -4,6 +4,7 @@ import { CreateCoursesTable1710214288467 } from "../migrations/1710214288467-Cre
 import { CreateTagsTable1710378320012 } from "src/migrations/1710378320012-CreateTagsTable";
 import { CreateCoursesTagsTable1710381055785 } from "src/migrations/1710381055785-CreateCoursesTagsTable";
 import { AddCoursesIdToCoursesTagsTable1710475021452 } from "src/migrations/1710475021452-AddCoursesIdToCoursesTagsTable";
+import { AddTagsIdToCoursesTagsTable1710553495183 } from "src/migrations/1710553495183-AddTagsIdToCoursesTagsTable";
 
 export const dataSource = new DataSource({
     ... dataSourceOptions,
@@ -12,7 +13,8 @@ export const dataSource = new DataSource({
         CreateCoursesTable1710214288467,
         CreateTagsTable1710378320012,
         CreateCoursesTagsTable1710381055785,
-        AddCoursesIdToCoursesTagsTable1710475021452
+        AddCoursesIdToCoursesTagsTable1710475021452,
+        AddTagsIdToCoursesTagsTable1710553495183
     ]
     /*
         cada migração q for criada ira passar no arquivo de migrations,
